@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="standard_add_task">60dp</dimen>
+    <dimen name="standard_delete_all_task">125dp</dimen>
+    <dimen name="marginFAB">16dp</dimen>
+</resources>
