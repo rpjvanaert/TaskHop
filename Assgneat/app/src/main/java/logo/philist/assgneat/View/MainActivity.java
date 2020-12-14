@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements CallbackTask {
 
     public void init(){
         Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
 
         fabAddTask = findViewById(R.id.FAB_add);
         fabAddTask.shrink();
