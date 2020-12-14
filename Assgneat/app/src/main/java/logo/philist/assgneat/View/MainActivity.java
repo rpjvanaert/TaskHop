@@ -9,15 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-
-import java.util.List;
 
 import logo.philist.assgneat.Data.Task;
 import logo.philist.assgneat.R;
@@ -26,6 +23,7 @@ import logo.philist.assgneat.TaskViewModel;
 public class MainActivity extends AppCompatActivity implements CallbackTask {
 
     public static final int ADD_TASK_REQUEST = 1;
+    public static final int EDIT_TASK_REQUEST = 2;
 
     private TaskViewModel taskViewModel;
 
@@ -53,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements CallbackTask {
         fabMenu.shrink();
         fabAddTask.setOnClickListener(view -> {
             if (fabAddTask.isExtended()){
-                Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
+                Intent intent = new Intent(MainActivity.this, AddEditTaskActivity.class);
                 startActivityForResult(intent, ADD_TASK_REQUEST);
                 closeFabMenu();
             } else {
@@ -71,10 +69,8 @@ public class MainActivity extends AppCompatActivity implements CallbackTask {
         });
         fabMenu.setOnClickListener(view -> {
             if (fabMenu.isExtended()){
-                fabMenu.shrink();
                 closeFabMenu();
             } else {
-                fabMenu.extend();
                 openFabMenu();
             }
         });
@@ -87,16 +83,6 @@ public class MainActivity extends AppCompatActivity implements CallbackTask {
 
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
         taskViewModel.getTasks().observe(this, adapter);
-//            @Override
-//            public void onChanged(List<Task> tasks) {
-//                adapter.setTasks(tasks);
-//                adapter.notifyDataSetChanged();
-////                String stringTask = "Task: ";
-////                for (Task task : tasks) {
-////                    Log.i(MainActivity.class.getName(), stringTask + task.getId() + task.isCheck() + " --with name: " + task.getName());
-////                }
-//            }
-//        });
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -116,15 +102,25 @@ public class MainActivity extends AppCompatActivity implements CallbackTask {
 
     private void openFabMenu() {
         fabAddTask.animate().translationY(-getResources().getDimension(R.dimen.standard_add_task));
-        fabDeleteAllTasks.animate().translationY(-getResources().getDimension(R.dimen.standard_delete_all_task));
+        fabDeleteAllTasks.animate().translationY(-getResources().getDimension(R.dimen.standard_delete_all_task)).withEndAction(() -> {
+            fabMenu.extend();
+            fabDeleteAllTasks.extend();
+            fabAddTask.extend();
+        });
+
     }
 
     private void closeFabMenu() {
-        fabAddTask.animate().translationY(0);
-        fabDeleteAllTasks.animate().translationY(0);
         fabMenu.shrink();
         fabAddTask.shrink();
-        fabDeleteAllTasks.shrink();
+        fabDeleteAllTasks.shrink(new ExtendedFloatingActionButton.OnChangedCallback() {
+            @Override
+            public void onShrunken(ExtendedFloatingActionButton extendedFab) {
+                super.onShrunken(extendedFab);
+                fabAddTask.animate().translationY(0);
+                fabDeleteAllTasks.animate().translationY(0);
+            }
+        });
     }
 
     @Override
@@ -132,13 +128,32 @@ public class MainActivity extends AppCompatActivity implements CallbackTask {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == ADD_TASK_REQUEST && resultCode == RESULT_OK){
-            String name = data.getStringExtra(AddTaskActivity.TAG_NAME);
-            String description = data.getStringExtra(AddTaskActivity.TAG_DESCRIPTION);
+            String name = data.getStringExtra(AddEditTaskActivity.EXTRA_NAME);
+            String description = data.getStringExtra(AddEditTaskActivity.EXTRA_DESCRIPTION);
 
             Task task = new Task(name, description, false);
             taskViewModel.insert(task);
 
             Toast.makeText(this, "Task saved", Toast.LENGTH_SHORT).show();
+
+        }  else if (requestCode == EDIT_TASK_REQUEST && resultCode == RESULT_OK){
+            int id = data.getIntExtra(AddEditTaskActivity.EXTRA_ID, -1);
+
+            if (id == -1){
+                Toast.makeText(this, "Note can't be updated", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String name = data.getStringExtra(AddEditTaskActivity.EXTRA_NAME);
+            String description = data.getStringExtra(AddEditTaskActivity.EXTRA_DESCRIPTION);
+            boolean check = data.getBooleanExtra(AddEditTaskActivity.EXTRA_CHECK, false);
+
+            Task task = new Task(name, description, check);
+
+            taskViewModel.update(task);
+
+            Toast.makeText(this, "Task Updated", Toast.LENGTH_SHORT).show();
+
         } else {
             Toast.makeText(this, "Task not saved", Toast.LENGTH_SHORT).show();
         }
@@ -147,11 +162,25 @@ public class MainActivity extends AppCompatActivity implements CallbackTask {
     @Override
     public void editTask(Task task) {
         //@TODO edit task
+
+        Intent intent = new Intent(MainActivity.this, AddEditTaskActivity.class);
+
+        intent.putExtra(AddEditTaskActivity.EXTRA_ID, task.getId());
+        intent.putExtra(AddEditTaskActivity.EXTRA_NAME, task.getName());
+        intent.putExtra(AddEditTaskActivity.EXTRA_DESCRIPTION, task.getDescription());
+        intent.putExtra(AddEditTaskActivity.EXTRA_CHECK, task.isCheck());
+
+        startActivityForResult(intent, EDIT_TASK_REQUEST);
     }
 
     @Override
     public void updateCheck(Task task) {
         taskViewModel.updateCheck(task);
         Log.i(MainActivity.class.getName(), "Updating task " + task.getId() + task.getName() + " to check --- " + task.isCheck());
+    }
+
+    @Override
+    public void deleteTask(Task task) {
+        taskViewModel.delete(task);
     }
 }

@@ -75,6 +75,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
             }
         });
         holder.textViewDescription.setText(task.getDescription());
+
+        holder.fabDelete.setOnClickListener((view -> {
+            callbackTask.deleteTask(task);
+        }));
+
+        holder.fabEdit.setOnClickListener(view -> {
+            callbackTask.editTask(task);
+        });
     }
 
     @Override

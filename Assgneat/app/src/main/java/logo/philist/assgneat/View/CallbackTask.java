@@ -5,4 +5,5 @@ import logo.philist.assgneat.Data.Task;
 public interface CallbackTask {
     void editTask(Task task);
     void updateCheck(Task task);
+    void deleteTask(Task task);
 }
