@@ -1,7 +1,6 @@
 package logo.philist.assgneat.Model;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
@@ -55,8 +54,8 @@ public class TaskRepository {
 
     private static class InsertTaskRunnable implements Runnable{
 
-        private TaskDao taskDao;
-        private Task task;
+        private final TaskDao taskDao;
+        private final Task task;
 
         private InsertTaskRunnable(TaskDao taskDao, Task task){
             this.taskDao = taskDao;
@@ -71,8 +70,8 @@ public class TaskRepository {
 
     private static class UpdateCheckRunnable implements  Runnable{
 
-        private TaskDao taskDao;
-        private Task task;
+        private final TaskDao taskDao;
+        private final Task task;
 
         private  UpdateCheckRunnable(TaskDao taskDao, Task task){
             this.taskDao = taskDao;
@@ -87,8 +86,8 @@ public class TaskRepository {
 
     private static class UpdateTaskRunnable implements Runnable{
 
-        private TaskDao taskDao;
-        private Task task;
+        private final TaskDao taskDao;
+        private final Task task;
 
         private UpdateTaskRunnable(TaskDao taskDao, Task task){
             this.taskDao = taskDao;
@@ -103,8 +102,8 @@ public class TaskRepository {
 
     private static class DeleteTaskRunnable implements Runnable {
 
-        private TaskDao taskDao;
-        private Task task;
+        private final TaskDao taskDao;
+        private final Task task;
 
         private DeleteTaskRunnable(TaskDao taskDao, Task task){
             this.taskDao = taskDao;
@@ -119,7 +118,7 @@ public class TaskRepository {
 
     private static class DeleteAllTasksRunnable implements Runnable{
 
-        private TaskDao taskDao;
+        private final TaskDao taskDao;
 
         private DeleteAllTasksRunnable(TaskDao taskDao){
             this.taskDao = taskDao;
