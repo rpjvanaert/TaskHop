@@ -47,13 +47,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
         Task task = tasks.get(position);
 
         holder.textviewTaskName.setText(task.getName());
+        holder.checkBoxDone.setOnCheckedChangeListener(null);
         holder.checkBoxDone.setChecked(task.isCheck());
 
-//        holder.checkBoxDone.setOnCheckedChangeListener((compoundButton, b) -> {
-//            Log.i(TaskAdapter.class.getName(), holder.checkBoxDone.hashCode() + " button has been pressed to " + b);
-//            task.setCheck(b);
-//            callbackTask.updateCheck(task);
-//        });
+        holder.checkBoxDone.setOnCheckedChangeListener((compoundButton, b) -> {
+            Log.i(TaskAdapter.class.getName(), holder.checkBoxDone.hashCode() + " button has been pressed to " + b);
+            task.setCheck(b);
+            callbackTask.updateCheck(task);
+        });
 
         holder.fabCheck.setOnClickListener(view -> {
             task.setCheck(!task.isCheck());
