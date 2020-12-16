@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">Organicism</string>
+    <string name="edit_task">Task aanpassen</string>
+    <string name="check">Check</string>
+    <string name="add_task">Task toevoegen</string>
+    <string name="task_description_hint">Task beschrijving</string>
+    <string name="task_name_hint">Task naam</string>
+    <string name="confirm">Bevestigen</string>
+    <string name="cancel">Annuleren</string>
+    <string name="task_delete">Verwijderen</string>
+</resources>
