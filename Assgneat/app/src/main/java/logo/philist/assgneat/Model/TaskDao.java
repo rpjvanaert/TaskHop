@@ -21,6 +21,9 @@ public interface TaskDao {
     @Query("UPDATE task_table SET `check`= :check WHERE id = :id")
     void updateCheck(int id, boolean check);
 
+    @Query("UPDATE task_table SET `name`= :name AND `description`= :description WHERE id= :id")
+    void update(int id, String name, String description);
+
     @Update
     void update(Task task);
 
@@ -30,6 +33,6 @@ public interface TaskDao {
     @Query("DELETE FROM task_table")
     void deleteAll();
 
-    @Query("SELECT * FROM task_table ORDER BY id DESC")
+    @Query("SELECT * FROM task_table ORDER BY id ASC")
     LiveData<List<Task>> getTasksByOrder();
 }

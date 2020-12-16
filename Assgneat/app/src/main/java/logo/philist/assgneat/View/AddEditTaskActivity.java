@@ -81,8 +81,8 @@ public class AddEditTaskActivity extends AppCompatActivity {
         String name = editTextName.getText().toString();
         String description = editTextDescription.getText().toString();
 
-        if (name.trim().isEmpty() || description.trim().isEmpty()){
-            Toast.makeText(this, "Please insert name and description", Toast.LENGTH_SHORT).show();
+        if (name.trim().isEmpty()){
+            Toast.makeText(this, "Please insert name", Toast.LENGTH_SHORT).show();
             return;
         }
 

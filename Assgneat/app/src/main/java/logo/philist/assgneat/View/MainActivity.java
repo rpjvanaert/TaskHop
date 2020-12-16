@@ -148,6 +148,8 @@ public class MainActivity extends AppCompatActivity implements CallbackTask {
             boolean check = data.getBooleanExtra(AddEditTaskActivity.EXTRA_CHECK, false);
 
             Task task = new Task(name, description, check);
+            task.setId(id);
+            Log.i(MainActivity.class.getName(), task.toString());
 
             taskViewModel.update(task);
 
@@ -160,8 +162,6 @@ public class MainActivity extends AppCompatActivity implements CallbackTask {
 
     @Override
     public void editTask(Task task) {
-        //@TODO edit task
-
         Intent intent = new Intent(MainActivity.this, AddEditTaskActivity.class);
 
         intent.putExtra(AddEditTaskActivity.EXTRA_ID, task.getId());

@@ -58,11 +58,25 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
 
         holder.fabCheck.setOnClickListener(view -> {
             task.setCheck(!task.isCheck());
+            TransitionManager.beginDelayedTransition(holder.cardView, new AutoTransition());
+            holder.detailLayout.setVisibility(View.GONE);
+            holder.buttonExpand.setBackgroundResource(R.drawable.ic_expand);
             callbackTask.updateCheck(task);
             notifyDataSetChanged();
         });
 
         holder.buttonExpand.setBackgroundResource(R.drawable.ic_expand);
+
+        holder.textViewDescription.setText(task.getDescription());
+
+        holder.fabDelete.setOnClickListener((view -> {
+            callbackTask.deleteTask(task);
+        }));
+
+        holder.fabEdit.setOnClickListener(view -> {
+            callbackTask.editTask(task);
+        });
+
         holder.buttonExpand.setOnClickListener(view -> {
             if (holder.detailLayout.getVisibility()==View.GONE){
                 TransitionManager.beginDelayedTransition(holder.cardView, new AutoTransition());
@@ -74,15 +88,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
                 holder.buttonExpand.setBackgroundResource(R.drawable.ic_expand);
             }
         });
-        holder.textViewDescription.setText(task.getDescription());
 
-        holder.fabDelete.setOnClickListener((view -> {
-            callbackTask.deleteTask(task);
-        }));
-
-        holder.fabEdit.setOnClickListener(view -> {
-            callbackTask.editTask(task);
-        });
+        holder.detailLayout.setVisibility(View.GONE);
     }
 
     @Override
