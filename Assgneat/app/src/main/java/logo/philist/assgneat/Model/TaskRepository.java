@@ -1,6 +1,7 @@
 package logo.philist.assgneat.Model;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -33,6 +34,7 @@ public class TaskRepository {
     }
 
     public void update(Task task){
+        Log.i(TaskRepository.class.getName(), "Updating task with : " + task.getId() + task.getName() + " with description " + task.getDescription());
         threadFactory.newThread(new UpdateTaskRunnable(taskDao, task)).start();
     }
 

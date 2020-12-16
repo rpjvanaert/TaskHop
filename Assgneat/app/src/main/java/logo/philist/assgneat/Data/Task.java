@@ -42,4 +42,15 @@ public class Task {
     public boolean isCheck() {
         return check;
     }
+
+    @Override
+    public String toString() {
+        return "Task + "+ id + "\"" + name + "\" descr: " + description + " //state: " + check;
+//        return "Task{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", description='" + description + '\'' +
+//                ", check=" + check +
+//                '}';
+    }
 }
