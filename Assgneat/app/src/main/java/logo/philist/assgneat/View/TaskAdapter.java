@@ -23,14 +23,18 @@ import java.util.List;
 
 import logo.philist.assgneat.Data.Task;
 import logo.philist.assgneat.R;
+import logo.philist.assgneat.View.Dialogs.DeleteTaskDialog;
+import logo.philist.assgneat.View.Dialogs.DeleteTaskDialogShow;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> implements Observer<List<Task>> {
 
+    private final DeleteTaskDialogShow deleteTaskDialogShow;
     private List<Task> tasks = new ArrayList<>();
-    private CallbackTask callbackTask;
+    private final TaskEditor taskEditor;
 
-    public TaskAdapter(CallbackTask callbackTask){
-        this.callbackTask = callbackTask;
+    public TaskAdapter(TaskEditor callbackTask, DeleteTaskDialogShow deleteTaskDialogShow){
+        this.taskEditor = callbackTask;
+        this.deleteTaskDialogShow = deleteTaskDialogShow;
     }
 
     @NonNull
@@ -53,7 +57,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
         holder.checkBoxDone.setOnCheckedChangeListener((compoundButton, b) -> {
             Log.i(TaskAdapter.class.getName(), holder.checkBoxDone.hashCode() + " button has been pressed to " + b);
             task.setCheck(b);
-            callbackTask.updateCheck(task);
+            taskEditor.updateCheck(task);
         });
 
         holder.fabCheck.setOnClickListener(view -> {
@@ -61,8 +65,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
             TransitionManager.beginDelayedTransition(holder.cardView, new AutoTransition());
             holder.detailLayout.setVisibility(View.GONE);
             holder.buttonExpand.setBackgroundResource(R.drawable.ic_expand);
-            callbackTask.updateCheck(task);
-            notifyDataSetChanged();
+            taskEditor.updateCheck(task);
+            notifyItemChanged(position);
         });
 
         holder.buttonExpand.setBackgroundResource(R.drawable.ic_expand);
@@ -70,11 +74,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
         holder.textViewDescription.setText(task.getDescription());
 
         holder.fabDelete.setOnClickListener((view -> {
-            callbackTask.deleteTask(task);
+//            callbackTask.deleteTask(task);
+//            DeleteTaskDialog dialog = new DeleteTaskDialog(taskEditor, task);
+            this.deleteTaskDialogShow.delete(task);
         }));
 
         holder.fabEdit.setOnClickListener(view -> {
-            callbackTask.editTask(task);
+            taskEditor.editTask(task);
         });
 
         holder.buttonExpand.setOnClickListener(view -> {
@@ -99,12 +105,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
 
     private void logTasks(List<Task> tasks){
         Log.i(TaskAdapter.class.getName(), "Amount of tasks: " + tasks.size());
-    }
-
-    public void setTasks(List<Task> tasks){
-        this.tasks = tasks;
-//        logTasks(this.tasks);
-        notifyDataSetChanged();
     }
 
     public Task getTaskAt(int position){

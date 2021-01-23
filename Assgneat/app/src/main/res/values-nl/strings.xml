@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Organicism</string>
     <string name="edit_task">Task aanpassen</string>
     <string name="check">Check</string>
     <string name="add_task">Task toevoegen</string>
@@ -9,4 +8,9 @@
     <string name="confirm">Bevestigen</string>
     <string name="cancel">Annuleren</string>
     <string name="task_delete">Verwijderen</string>
+    <string name="menu">Menu</string>
+    <string name="task_delete_all">Verwijder Alles</string>
+    <string name="ask_delete_task">Wil je deze task verwijderen?</string>
+    <string name="task_name_header">"Task naam: "</string>
+    <string name="description_header">" met de volgende beschrijving:  "</string>
 </resources>

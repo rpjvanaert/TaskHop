@@ -3,6 +3,7 @@ package logo.philist.assgneat.View;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,9 +19,12 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 
 import logo.philist.assgneat.Data.Task;
 import logo.philist.assgneat.R;
-import logo.philist.assgneat.TaskViewModel;
+import logo.philist.assgneat.View.Dialogs.DeleteAllTasksDialog;
+import logo.philist.assgneat.View.Dialogs.DeleteTaskDialog;
+import logo.philist.assgneat.View.Dialogs.DeleteTaskDialogShow;
+import logo.philist.assgneat.ViewModel.TaskViewModel;
 
-public class MainActivity extends AppCompatActivity implements CallbackTask {
+public class MainActivity extends AppCompatActivity implements TaskEditor, DeleteTaskDialogShow {
 
     public static final int ADD_TASK_REQUEST = 1;
     public static final int EDIT_TASK_REQUEST = 2;
@@ -30,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements CallbackTask {
     private ExtendedFloatingActionButton fabAddTask;
     private ExtendedFloatingActionButton fabDeleteAllTasks;
     private ExtendedFloatingActionButton fabMenu;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements CallbackTask {
         });
         fabDeleteAllTasks.setOnClickListener(view -> {
             if (fabDeleteAllTasks.isExtended()){
-                taskViewModel.deleteAllTasks();
+                deleteAllTasksDialog();
                 closeFabMenu();
             } else {
                 fabDeleteAllTasks.extend();
@@ -74,10 +79,10 @@ public class MainActivity extends AppCompatActivity implements CallbackTask {
             }
         });
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerview_tasks);
+        recyclerView = findViewById(R.id.recyclerview_tasks);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        TaskAdapter adapter = new TaskAdapter(this);
+        TaskAdapter adapter = new TaskAdapter(this, this);
         recyclerView.setAdapter(adapter);
 
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
@@ -92,9 +97,7 @@ public class MainActivity extends AppCompatActivity implements CallbackTask {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                taskViewModel.delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
-                Toast.makeText(MainActivity.this,
-                        "Task deleted", Toast.LENGTH_SHORT).show();
+                delete(adapter.getTaskAt(viewHolder.getAdapterPosition()));
             }
         }).attachToRecyclerView(recyclerView);
     }
@@ -181,5 +184,23 @@ public class MainActivity extends AppCompatActivity implements CallbackTask {
     @Override
     public void deleteTask(Task task) {
         taskViewModel.delete(task);
+        Toast.makeText(MainActivity.this,
+                "Task deleted", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void deleteAllTasks() {
+        taskViewModel.deleteAllTasks();
+    }
+
+    public void deleteAllTasksDialog() {
+        DeleteAllTasksDialog deleteAllTasksDialog = new DeleteAllTasksDialog(this);
+        deleteAllTasksDialog.show(getSupportFragmentManager(), "delete_all");
+    }
+
+    @Override
+    public void delete(Task task) {
+        DeleteTaskDialog deleteTaskDialog = new DeleteTaskDialog(this, task);
+        deleteTaskDialog.show(getSupportFragmentManager(), "delete_task");
     }
 }

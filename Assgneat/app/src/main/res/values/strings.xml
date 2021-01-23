@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Organicism</string>
+    <string name="app_name" translatable="false">Organicist</string>
     <string name="edit_task">Edit task</string>
     <string name="check">Check</string>
     <string name="description_placeholder" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
@@ -10,4 +10,10 @@
     <string name="cancel">Cancel</string>
     <string name="task_delete">Delete</string>
     <string name="menu">Menu</string>
+    <string name="task_delete_all">Delete all</string>
+    <string name="ask_delete_task">Do u want to delete this task?</string>
+    <string name="task_name_header">\"Task name : \"</string>
+    <string name="description_header">\nwith the following description: \n</string>
+    <string name="ask_delete_all_tasks">Do u want to delete all tasks?</string>
+    <string name="warning_delete_all">Warning! This action will delete all tasks!</string>
 </resources>

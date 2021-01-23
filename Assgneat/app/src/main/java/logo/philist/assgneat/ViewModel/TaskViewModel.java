@@ -1,4 +1,4 @@
-package logo.philist.assgneat;
+package logo.philist.assgneat.ViewModel;
 
 import android.app.Application;
 

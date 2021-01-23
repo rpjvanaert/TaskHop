@@ -64,7 +64,7 @@
         android:backgroundTint="@color/colorRed"
         app:icon="@drawable/ic_delete"
         app:iconTint="@color/colorWhite"
-        android:text="@string/task_delete"
+        android:text="@string/task_delete_all"
         android:textColor="@color/colorWhite"
         />
 

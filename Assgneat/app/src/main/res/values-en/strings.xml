@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Organicism</string>
     <string name="edit_task">Edit task</string>
     <string name="check">Check</string>
     <string name="add_task">Add Task</string>
@@ -10,4 +9,8 @@
     <string name="cancel">Cancel</string>
     <string name="task_delete">Delete</string>
     <string name="menu">Menu</string>
+    <string name="task_delete_all">Delete All</string>
+    <string name="ask_delete_task">Do u want to delete this task?</string>
+    <string name="task_name_header">"Task name: "</string>
+    <string name="description_header">" with the following description:  "</string>
 </resources>

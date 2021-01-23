@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:backgroundTint="@color/colorWhite"
+    android:padding="16dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+
+        >
+
+        <TextView
+            android:id="@+id/head_ask_delete_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:text="@string/ask_delete_task"
+            android:textSize="24sp"
+            />
+
+        <TextView
+            android:id="@+id/text_ask_delete_task"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@id/head_ask_delete_task"
+            app:layout_constraintStart_toStartOf="parent"
+
+            android:textSize="18sp"
+
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/confirm_delete_button"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/confirm"
+
+            app:layout_constraintTop_toBottomOf="@id/text_ask_delete_task"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:backgroundTint="@color/colorRed"
+            android:textColor="@color/colorWhite"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
